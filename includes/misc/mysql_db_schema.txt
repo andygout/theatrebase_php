@@ -1,0 +1,1116 @@
+CREATE DATABASE theatrebase;
+USE theatrebase;
+
+CREATE TABLE prd (
+prd_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+prd_nm VARCHAR(255) NOT NULL,
+prd_alph VARCHAR(255),
+prd_url VARCHAR(255) NOT NULL,
+prd_sbnm VARCHAR(255) NOT NULL,
+prd_crtd DATETIME NOT NULL,
+prd_updtd DATETIME NOT NULL,
+prd_frst_dt DATE NOT NULL,
+prd_prss_dt DATE,
+prd_prss_dt_2 DATE,
+prd_lst_dt DATE NOT NULL,
+prd_prss_dt_tbc BOOL,
+prd_prv_only BOOL,
+prd_dts_info TINYINT(1) UNSIGNED, (prd_bkng_untl / prd_lst_dt_tbc / prd_dts_tbc)
+prd_prss_wrdng VARCHAR(255),
+prd_tbc_nt VARCHAR(14),
+prd_dt_nt VARCHAR(255),
+prd_tr TINYINT(1) UNSIGNED, (prd_tr_ov / prd_tr_lg)
+tr_ov INT UNSIGNED,
+tr_lg_ordr TINYINT UNSIGNED,
+prd_coll TINYINT(1) UNSIGNED, (prd_coll_ov / prd_coll_sg)
+coll_ov INT UNSIGNED,
+coll_sbhdrid TINYINT UNSIGNED,
+coll_ordr TINYINT UNSIGNED,
+prd_thtr_nt VARCHAR(255),
+prd_clss TINYINT(1) UNSIGNED,
+prd_othr_prts BOOL,
+prd_cst_nt VARCHAR(255),
+thtrid INT UNSIGNED
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE prd_alt_nm (
+prdid INT UNSIGNED NOT NULL,
+prd_alt_nm VARCHAR(255) NOT NULL,
+prd_alt_nm_dscr VARCHAR(255),
+prd_alt_nm_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (prdid, prd_alt_nm_ordr)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE prdcoll_sbhdr (
+coll_ov INT UNSIGNED NOT NULL,
+coll_sbhdr_id TINYINT UNSIGNED NOT NULL,
+coll_sbhdr VARCHAR(255) NOT NULL,
+PRIMARY KEY (coll_ov, coll_sbhdr_id)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE prdrep (
+rep1 INT UNSIGNED NOT NULL,
+rep2 INT UNSIGNED NOT NULL,
+PRIMARY KEY (rep1, rep2)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE prdrn (
+prdrn1 INT UNSIGNED NOT NULL,
+prdrn2 INT UNSIGNED NOT NULL,
+PRIMARY KEY (prdrn1, prdrn2)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE thtr (
+thtr_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+thtr_nm VARCHAR(255) NOT NULL,
+sbthtr_nm VARCHAR(255),
+thtr_lctn VARCHAR(255),
+thtr_fll_nm VARCHAR(255) NOT NULL,
+thtr_alph VARCHAR(255),
+thtr_sffx_num TINYINT UNSIGNED,
+thtr_url VARCHAR(255) NOT NULL UNIQUE,
+thtr_adrs VARCHAR(255),
+thtr_lctnid INT UNSIGNED,
+thtr_cpcty SMALLINT UNSIGNED,
+thtr_opn_dt DATE,
+thtr_opn_dt_frmt TINYINT(1) UNSIGNED,
+thtr_cls_dt DATE,
+thtr_cls_dt_frmt TINYINT(1) UNSIGNED,
+thtr_clsd BOOL,
+thtr_nm_frm_dt DATE,
+thtr_nm_frm_dt_frmt TINYINT(1) UNSIGNED,
+thtr_nm_exp_dt DATE,
+thtr_nm_exp_dt_frmt TINYINT(1) UNSIGNED,
+thtr_nm_exp BOOL,
+thtr_tr_ov BOOL,
+srthtrid INT UNSIGNED,
+sbthtr_ordr TINYINT UNSIGNED
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE thtr_lctn_alt (
+thtrid INT UNSIGNED NOT NULL,
+thtr_lctnid INT UNSIGNED NOT NULL,
+thtr_lctn_altid INT UNSIGNED NOT NULL,
+PRIMARY KEY (thtrid, thtr_lctnid, thtr_lctn_altid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE thtr_typ (
+thtr_typ_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+thtr_typ_nm VARCHAR(255) NOT NULL UNIQUE,
+thtr_typ_url VARCHAR(255) NOT NULL UNIQUE
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE thtrtyp (
+thtrid INT UNSIGNED NOT NULL,
+thtr_typid INT UNSIGNED NOT NULL,
+thtr_typ_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (thtrid, thtr_typid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE thtrcomp (
+thtrid INT UNSIGNED NOT NULL,
+compid INT UNSIGNED NOT NULL,
+thtr_comp_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (thtrid, compid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE thtr_aka (
+thtr_prvs_id INT UNSIGNED NOT NULL,
+thtr_sbsq_id INT UNSIGNED NOT NULL,
+PRIMARY KEY (thtr_prvs_id, thtr_sbsq_id)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE thtr_alt_adrs (
+thtr_prvsad_id INT UNSIGNED NOT NULL,
+thtr_sbsqad_id INT UNSIGNED NOT NULL,
+PRIMARY KEY (thtr_prvsad_id, thtr_sbsqad_id)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE prd_vrsn (
+prd_vrsn_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+prd_vrsn_nm VARCHAR(255) NOT NULL UNIQUE,
+prd_vrsn_url VARCHAR(255) NOT NULL UNIQUE
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE prdprd_vrsn (
+prdid INT UNSIGNED NOT NULL,
+prd_vrsnid INT UNSIGNED NOT NULL,
+prd_vrsn_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (prdid, prd_vrsnid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE txt_vrsn (
+txt_vrsn_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+txt_vrsn_nm VARCHAR(255) NOT NULL UNIQUE,
+txt_vrsn_url VARCHAR(255) NOT NULL UNIQUE
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE prdtxt_vrsn (
+prdid INT UNSIGNED NOT NULL,
+txt_vrsnid INT UNSIGNED NOT NULL,
+txt_vrsn_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (prdid, txt_vrsnid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE ctgry (
+ctgry_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+ctgry_nm VARCHAR(255) NOT NULL UNIQUE,
+ctgry_url VARCHAR(255) NOT NULL UNIQUE
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE prdctgry (
+prdid INT UNSIGNED NOT NULL,
+ctgryid INT UNSIGNED NOT NULL,
+ctgry_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (prdid, ctgryid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE gnr (
+gnr_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+gnr_nm VARCHAR(255) NOT NULL UNIQUE,
+gnr_url VARCHAR(255) NOT NULL UNIQUE
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE rel_gnr (
+rel_gnr1 INT UNSIGNED NOT NULL,
+rel_gnr2 INT UNSIGNED NOT NULL,
+rel_gnr_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (rel_gnr1, rel_gnr2)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE prdgnr (
+prdid INT UNSIGNED NOT NULL,
+gnrid INT UNSIGNED NOT NULL,
+gnr_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (prdid, gnrid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE ftr (
+ftr_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+ftr_nm VARCHAR(255) NOT NULL UNIQUE,
+ftr_url VARCHAR(255) NOT NULL UNIQUE
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE prdftr (
+prdid INT UNSIGNED NOT NULL,
+ftrid INT UNSIGNED NOT NULL,
+ftr_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (prdid, ftrid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE prdsttng (
+prdid INT UNSIGNED NOT NULL,
+sttng_id TINYINT UNSIGNED NOT NULL,
+tm_spn BOOL,
+PRIMARY KEY (prdid, sttng_id)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE tm (
+tm_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+tm_nm VARCHAR(255) NOT NULL UNIQUE,
+tm_alph VARCHAR(255),
+tm_url VARCHAR(255) NOT NULL UNIQUE,
+tm_frm_dt DATE,
+tm_frm_dt_bce BOOL,
+tm_to_dt DATE,
+tm_to_dt_bce BOOL,
+tm_rcr BOOL
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE rel_tm (
+rel_tm1 INT UNSIGNED NOT NULL,
+rel_tm2 INT UNSIGNED NOT NULL,
+rel_tm_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (rel_tm1, rel_tm2)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE prdsttng_tm (
+prdid INT UNSIGNED NOT NULL,
+sttngid TINYINT UNSIGNED NOT NULL,
+sttng_tmid INT UNSIGNED NOT NULL,
+sttng_tm_ordr TINYINT UNSIGNED NOT NULL,
+sttng_tm_nt1 VARCHAR(255),
+sttng_tm_nt2 VARCHAR(255),
+PRIMARY KEY (prdid, sttngid, sttng_tmid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE lctn (
+lctn_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+lctn_nm VARCHAR(255) NOT NULL,
+lctn_alph VARCHAR(255),
+lctn_sffx_num TINYINT UNSIGNED,
+lctn_url VARCHAR(255) NOT NULL UNIQUE,
+lctn_est_dt_c BOOL,
+lctn_est_dt DATE,
+lctn_est_dt_bce BOOL,
+lctn_est_dt_frmt TINYINT(1) UNSIGNED,
+lctn_exp_dt_c BOOL,
+lctn_exp_dt DATE,
+lctn_exp_dt_bce BOOL,
+lctn_exp_dt_frmt TINYINT(1) UNSIGNED,
+lctn_exp BOOL,
+lctn_fctn BOOL
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE rel_lctn (
+rel_lctn1 INT UNSIGNED NOT NULL,
+rel_lctn2 INT UNSIGNED NOT NULL,
+rel_lctn_ordr TINYINT UNSIGNED NOT NULL,
+rel_lctn_nt1 VARCHAR(255),
+rel_lctn_nt2 VARCHAR(255),
+PRIMARY KEY (rel_lctn1, rel_lctn2)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE lctn_aka (
+lctn_prvs_id INT UNSIGNED NOT NULL,
+lctn_sbsq_id INT UNSIGNED NOT NULL,
+lctn_prvs_sg BOOL,
+lctn_sbsq_sg BOOL,
+PRIMARY KEY (lctn_prvs_id, lctn_sbsq_id)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE prdsttng_lctn (
+prdid INT UNSIGNED NOT NULL,
+sttngid TINYINT UNSIGNED NOT NULL,
+sttng_lctnid INT UNSIGNED NOT NULL,
+sttng_lctn_ordr TINYINT UNSIGNED NOT NULL,
+sttng_lctn_nt1 VARCHAR(255),
+sttng_lctn_nt2 VARCHAR(255),
+PRIMARY KEY (prdid, sttngid, sttng_lctnid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE prdsttng_lctn_alt (
+prdid INT UNSIGNED NOT NULL,
+sttngid TINYINT UNSIGNED NOT NULL,
+sttng_lctnid INT UNSIGNED NOT NULL,
+sttng_lctn_altid INT UNSIGNED NOT NULL,
+PRIMARY KEY (prdid, sttngid, sttng_lctnid, sttng_lctn_altid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE plc (
+plc_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+plc_nm VARCHAR(255) NOT NULL UNIQUE,
+plc_url VARCHAR(255) NOT NULL UNIQUE
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE rel_plc (
+rel_plc1 INT UNSIGNED NOT NULL,
+rel_plc2 INT UNSIGNED NOT NULL,
+rel_plc_ordr TINYINT UNSIGNED NOT NULL,
+plc_typ_rel BOOL,
+PRIMARY KEY (rel_plc1, rel_plc2)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE prdsttng_plc (
+prdid INT UNSIGNED NOT NULL,
+sttngid TINYINT UNSIGNED NOT NULL,
+sttng_plcid INT UNSIGNED NOT NULL,
+sttng_plc_ordr TINYINT UNSIGNED NOT NULL,
+sttng_plc_nt1 VARCHAR(255),
+sttng_plc_nt2 VARCHAR(255),
+PRIMARY KEY (prdid, sttngid, sttng_plcid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE thm (
+thm_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+thm_nm VARCHAR(255) NOT NULL UNIQUE,
+thm_alph VARCHAR(255),
+thm_url VARCHAR(255) NOT NULL UNIQUE
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE rel_thm (
+rel_thm1 INT UNSIGNED NOT NULL,
+rel_thm2 INT UNSIGNED NOT NULL,
+rel_thm_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (rel_thm1, rel_thm2)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE prdthm (
+prdid INT UNSIGNED NOT NULL,
+thmid INT UNSIGNED NOT NULL,
+thm_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (prdid, thmid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE prsn (
+prsn_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+prsn_fll_nm VARCHAR(255) NOT NULL,
+prsn_frst_nm VARCHAR(255) NOT NULL,
+prsn_lst_nm VARCHAR(255),
+prsn_sffx_num TINYINT UNSIGNED,
+prsn_url VARCHAR(255) NOT NULL UNIQUE,
+prsn_sx TINYINT(1) UNSIGNED, (prsn_sx_m / prsn_sx_f)
+comp_bool BOOL NOT NULL,
+ethnid INT UNSIGNED,
+org_lctnid INT UNSIGNED
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE prsnorg_lctn_alt (
+prsnid INT UNSIGNED NOT NULL,
+org_lctnid INT UNSIGNED NOT NULL,
+org_lctn_altid INT UNSIGNED NOT NULL,
+PRIMARY KEY (prsnid, org_lctnid, org_lctn_altid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE prsnprof (
+prsnid INT UNSIGNED NOT NULL,
+profid INT UNSIGNED NOT NULL,
+prof_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (prsnid, profid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE comp (
+comp_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+comp_nm VARCHAR(255) NOT NULL,
+comp_alph VARCHAR(255),
+comp_sffx_num TINYINT UNSIGNED,
+comp_url VARCHAR(255) NOT NULL UNIQUE,
+comp_bool BOOL NOT NULL,
+comp_reg_nm VARCHAR(255),
+comp_reg_adrs VARCHAR(255),
+comp_est_dt DATE,
+comp_est_dt_frmt TINYINT(1) UNSIGNED,
+comp_dslv_dt DATE,
+comp_dslv_dt_frmt TINYINT(1) UNSIGNED,
+comp_dslv BOOL,
+comp_nm_frm_dt DATE,
+comp_nm_frm_dt_frmt TINYINT(1) UNSIGNED,
+comp_nm_exp_dt DATE,
+comp_nm_exp_dt_frmt TINYINT(1) UNSIGNED,
+comp_nm_exp BOOL
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE compadrs (
+compid INT UNSIGNED NOT NULL,
+comp_adrs VARCHAR(255) NOT NULL,
+comp_adrs_ttl VARCHAR(255),
+comp_adrs_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (compid, comp_adrs_ordr)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE comp_aka (
+comp_prvs_id INT UNSIGNED NOT NULL,
+comp_sbsq_id INT UNSIGNED NOT NULL,
+PRIMARY KEY (comp_prvs_id, comp_sbsq_id)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE comp_lctn (
+compid INT UNSIGNED NOT NULL,
+comp_lctnid INT UNSIGNED NOT NULL,
+comp_lctn_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (compid, comp_lctnid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE comp_lctn_alt (
+compid INT UNSIGNED NOT NULL,
+comp_lctnid INT UNSIGNED NOT NULL,
+comp_lctn_altid INT UNSIGNED NOT NULL,
+PRIMARY KEY (compid, comp_lctnid, comp_lctn_altid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE comp_typ (
+comp_typ_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+comp_typ_nm VARCHAR(255) NOT NULL UNIQUE,
+comp_typ_url VARCHAR(255) NOT NULL UNIQUE
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE comptyp (
+compid INT UNSIGNED NOT NULL,
+comp_typid INT UNSIGNED NOT NULL,
+comp_typ_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (compid, comp_typid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE compprsn (
+compid INT UNSIGNED NOT NULL,
+prsnid INT UNSIGNED NOT NULL,
+compprsn_ordr SMALLINT UNSIGNED NOT NULL,
+compprsn_rl VARCHAR(255) NOT NULL,
+compprsn_rl_nt VARCHAR(255) NOT NULL,
+compprsn_yr_strt SMALLINT UNSIGNED,
+compprsn_yr_end SMALLINT UNSIGNED,
+PRIMARY KEY (compid, prsnid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE prdwrirl (
+prdid INT UNSIGNED NOT NULL,
+wri_rl_id TINYINT UNSIGNED NOT NULL,
+wri_rl VARCHAR(255) NOT NULL,
+src_mat_rl VARCHAR(255) NOT NULL,
+PRIMARY KEY (prdid, wri_rl_id)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE prdwri (
+prdid INT UNSIGNED NOT NULL,
+wri_rlid TINYINT UNSIGNED NOT NULL,
+wri_compid INT UNSIGNED NOT NULL,
+wri_prsnid INT UNSIGNED NOT NULL,
+wri_sb_rl VARCHAR(255),
+org_wri BOOL,
+src_wri BOOL,
+grntr BOOL,
+wri_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (prdid, wri_rlid, wri_compid, wri_prsnid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE prdsrc_mat (
+prdid INT UNSIGNED NOT NULL,
+wri_rlid TINYINT UNSIGNED NOT NULL,
+src_matid INT UNSIGNED NOT NULL,
+src_mat_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (prdid, wri_rlid, src_matid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE prdprdcrrl (
+prdid INT UNSIGNED NOT NULL,
+prdcr_rl_id TINYINT UNSIGNED NOT NULL,
+prdcr_rl VARCHAR(255) NOT NULL,
+PRIMARY KEY (prdid, prdcr_rl_id)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE prdprdcr_comprl (
+prdid INT UNSIGNED NOT NULL,
+prdcr_comp_rl_id TINYINT UNSIGNED NOT NULL,
+prdcr_comprl VARCHAR(255) NOT NULL,
+PRIMARY KEY (prdid, prdcr_comp_rl_id)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE prdprdcr (
+prdid INT UNSIGNED NOT NULL,
+prdcr_rlid TINYINT UNSIGNED NOT NULL,
+prdcr_comp_rlid TINYINT UNSIGNED NOT NULL,
+prdcr_compid INT UNSIGNED NOT NULL,
+prdcr_prsnid INT UNSIGNED NOT NULL,
+prdcr_sb_rl VARCHAR(255),
+grntr BOOL,
+prdcr_crdt BOOL,
+prdcr_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (prdid, prdcr_compid, prdcr_prsnid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE prdprf (
+prdid INT UNSIGNED NOT NULL,
+prf_prsnid INT UNSIGNED NOT NULL,
+prf_ordr TINYINT UNSIGNED NOT NULL,
+prf_rl VARCHAR(255) NOT NULL,
+prf_rl_alph VARCHAR(255),
+prf_rl_lnk VARCHAR(255) NOT NULL,
+prf_rl_dscr VARCHAR(255),
+prf_rl_alt BOOL,
+prf_rl_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (prdid, prf_prsnid, prf_rl)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE prdus (
+prdid INT UNSIGNED NOT NULL,
+us_prsnid INT UNSIGNED NOT NULL,
+us_ordr TINYINT UNSIGNED NOT NULL,
+us_rl VARCHAR(255) NOT NULL,
+us_rl_alph VARCHAR(255),
+us_rl_lnk VARCHAR(255) NOT NULL,
+us_rl_dscr VARCHAR(255),
+us_rl_alt BOOL,
+us_rl_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (prdid, us_prsnid, us_rl)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE prdmscnrl (
+prdid INT UNSIGNED NOT NULL,
+mscn_rl_id TINYINT UNSIGNED NOT NULL,
+mscn_rl VARCHAR(255) NOT NULL,
+PRIMARY KEY (prdid, mscn_rl_id)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE prdmscn_comprl (
+prdid INT UNSIGNED NOT NULL,
+mscn_comp_rl_id TINYINT UNSIGNED NOT NULL,
+mscn_comprl VARCHAR(255) NOT NULL,
+PRIMARY KEY (prdid, mscn_comp_rl_id)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE prdmscn (
+prdid INT UNSIGNED NOT NULL,
+mscn_rlid TINYINT UNSIGNED NOT NULL,
+mscn_comp_rlid TINYINT UNSIGNED NOT NULL,
+mscn_compid INT UNSIGNED NOT NULL,
+mscn_prsnid INT UNSIGNED NOT NULL,
+mscn_sb_rl VARCHAR(255),
+mscn_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (prdid, mscn_compid, mscn_prsnid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE prdcrtvrl (
+prdid INT UNSIGNED NOT NULL,
+crtv_rl_id TINYINT UNSIGNED NOT NULL,
+crtv_rl VARCHAR(255) NOT NULL,
+PRIMARY KEY (prdid, crtv_rl_id)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE prdcrtv (
+prdid INT UNSIGNED NOT NULL,
+crtv_rlid TINYINT UNSIGNED NOT NULL,
+crtv_compid INT UNSIGNED NOT NULL,
+crtv_prsnid INT UNSIGNED NOT NULL,
+crtv_sb_rl VARCHAR(255),
+crtv_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (prdid, crtv_rlid, crtv_compid, crtv_prsnid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE prdprdtmrl (
+prdid INT UNSIGNED NOT NULL,
+prdtm_rl_id TINYINT UNSIGNED NOT NULL,
+prdtm_rl VARCHAR(255) NOT NULL,
+PRIMARY KEY (prdid, prdtm_rl_id)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE prdprdtm (
+prdid INT UNSIGNED NOT NULL,
+prdtm_rlid TINYINT UNSIGNED NOT NULL,
+prdtm_compid INT UNSIGNED NOT NULL,
+prdtm_prsnid INT UNSIGNED NOT NULL,
+prdtm_sb_rl VARCHAR(255),
+prdtm_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (prdid, prdtm_rlid, prdtm_compid, prdtm_prsnid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE ptwrirl (
+ptid INT UNSIGNED NOT NULL,
+wri_rl_id TINYINT UNSIGNED NOT NULL,
+wri_rl VARCHAR(255) NOT NULL,
+src_mat_rl VARCHAR(255) NOT NULL,
+PRIMARY KEY (ptid, wri_rl_id)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE ptwri (
+ptid INT UNSIGNED NOT NULL,
+wri_rlid TINYINT UNSIGNED NOT NULL,
+wri_compid INT UNSIGNED NOT NULL,
+wri_prsnid INT UNSIGNED NOT NULL,
+wri_sb_rl VARCHAR(255),
+org_wri BOOL,
+src_wri BOOL,
+grntr BOOL,
+wri_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (ptid, wri_rlid, wri_compid, wri_prsnid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE ptsrc_mat (
+ptid INT UNSIGNED NOT NULL,
+wri_rlid TINYINT UNSIGNED NOT NULL,
+src_matid INT UNSIGNED NOT NULL,
+src_mat_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (ptid, wri_rlid, src_matid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE ptcntrrl (
+ptid INT UNSIGNED NOT NULL,
+cntr_rl_id TINYINT UNSIGNED NOT NULL,
+cntr_rl VARCHAR(255) NOT NULL,
+PRIMARY KEY (ptid, cntr_rl_id)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE ptcntr (
+ptid INT UNSIGNED NOT NULL,
+cntr_rlid TINYINT UNSIGNED NOT NULL,
+cntr_compid INT UNSIGNED NOT NULL,
+cntr_prsnid INT UNSIGNED NOT NULL,
+cntr_sb_rl VARCHAR(255),
+cntr_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (ptid, cntr_rlid, cntr_compid, cntr_prsnid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE crscdntrrl (
+crsid INT UNSIGNED NOT NULL,
+cdntr_rl_id TINYINT UNSIGNED NOT NULL,
+cdntr_rl VARCHAR(255) NOT NULL,
+PRIMARY KEY (crsid, cdntr_rl_id)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE crscdntr_comprl (
+crsid INT UNSIGNED NOT NULL,
+cdntr_comp_rl_id TINYINT UNSIGNED NOT NULL,
+cdntr_comprl VARCHAR(255) NOT NULL,
+PRIMARY KEY (crsid, cdntr_comp_rl_id)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE crscdntr (
+crsid INT UNSIGNED NOT NULL,
+cdntr_rlid TINYINT UNSIGNED NOT NULL,
+cdntr_comp_rlid TINYINT UNSIGNED NOT NULL,
+cdntr_compid INT UNSIGNED NOT NULL,
+cdntr_prsnid INT UNSIGNED NOT NULL,
+cdntr_sb_rl VARCHAR(255),
+cdntr_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (crsid, cdntr_compid, cdntr_prsnid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE crsstff_prsn (
+crsid INT UNSIGNED NOT NULL,
+stff_prsnid INT UNSIGNED NOT NULL,
+stff_prsn_ordr TINYINT UNSIGNED NOT NULL,
+stff_prsn_rl VARCHAR(255) NOT NULL,
+PRIMARY KEY (crsid, stff_prsnid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE crsstdnt_prsn (
+crsid INT UNSIGNED NOT NULL,
+stdnt_prsnid INT UNSIGNED NOT NULL,
+stdnt_prsn_rl VARCHAR(255) NOT NULL,
+PRIMARY KEY (crsid, stdnt_prsnid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE prsnagnt (
+prsnid INT UNSIGNED NOT NULL,
+agnt_compid INT UNSIGNED NOT NULL,
+agnt_prsnid INT UNSIGNED NOT NULL,
+agnt_ordr TINYINT UNSIGNED NOT NULL,
+agnt_rl VARCHAR(255) NOT NULL,
+PRIMARY KEY (prsnid, agnt_compid, agnt_prsnid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE mat (
+mat_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+mat_nm VARCHAR(255) NOT NULL,
+mat_alph VARCHAR(255),
+mat_sffx_num TINYINT UNSIGNED,
+mat_url VARCHAR(255) NOT NULL,
+frmtid INT UNSIGNED NOT NULL
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE frmt (
+frmt_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+frmt_nm VARCHAR(255) NOT NULL,
+frmt_url VARCHAR(255) NOT NULL UNIQUE
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE prdmat (
+prdid INT UNSIGNED NOT NULL,
+matid INT UNSIGNED NOT NULL,
+mat_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (prdid, matid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE ssn (
+ssn_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+ssn_nm VARCHAR(255) NOT NULL UNIQUE,
+ssn_alph VARCHAR(255),
+ssn_url VARCHAR(255) NOT NULL UNIQUE
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE prdssn (
+prdid INT UNSIGNED NOT NULL,
+ssnid INT UNSIGNED NOT NULL,
+PRIMARY KEY (prdid, ssnid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE fstvl (
+fstvl_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+fstvl_nm VARCHAR(255) NOT NULL UNIQUE,
+fstvl_alph VARCHAR(255),
+fstvl_url VARCHAR(255) NOT NULL UNIQUE
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE prdfstvl (
+prdid INT UNSIGNED NOT NULL,
+fstvlid INT UNSIGNED NOT NULL,
+PRIMARY KEY (prdid, fstvlid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE crs (
+crs_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+crs_schlid INT UNSIGNED NOT NULL,
+crs_typid INT UNSIGNED NOT NULL,
+crs_yr_strt SMALLINT UNSIGNED,
+crs_yr_end SMALLINT UNSIGNED,
+crs_yr_url VARCHAR(255) NOT NULL,
+crs_sffx_num TINYINT UNSIGNED,
+crs_dt_strt DATE,
+crs_dt_strt_frmt TINYINT(1) UNSIGNED,
+crs_dt_end DATE,
+crs_dt_end_frmt TINYINT(1) UNSIGNED
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE crs_typ (
+crs_typ_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+crs_typ_nm VARCHAR(255) NOT NULL UNIQUE,
+crs_typ_url VARCHAR(255) NOT NULL UNIQUE
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE prdcrs (
+prdid INT UNSIGNED NOT NULL,
+crsid INT UNSIGNED NOT NULL,
+crs_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (prdid, crsid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE prdrvw (
+prdid INT UNSIGNED NOT NULL,
+rvw_pub_compid INT UNSIGNED NOT NULL,
+rvw_crtc_prsnid INT UNSIGNED NOT NULL,
+rvw_dt DATE NOT NULL,
+rvw_url VARCHAR(255) NOT NULL,
+PRIMARY KEY (prdid, rvw_url)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE awrds (
+awrds_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+awrds_nm VARCHAR(255) NOT NULL,
+awrds_alph VARCHAR(255),
+awrds_url VARCHAR(255) NOT NULL UNIQUE
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE awrd (
+awrd_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+awrd_yr SMALLINT UNSIGNED NOT NULL,
+awrd_yr_end SMALLINT UNSIGNED,
+awrd_yr_url VARCHAR(255) NOT NULL,
+awrd_dt DATE,
+awrdsid INT UNSIGNED NOT NULL,
+thtrid INT UNSIGNED
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE awrd_ctgry (
+awrd_ctgry_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+awrd_ctgry_nm VARCHAR(255) NOT NULL,
+awrd_ctgry_alph VARCHAR(255),
+awrd_ctgry_url VARCHAR(255) NOT NULL UNIQUE
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE awrdctgrys (
+awrdid INT UNSIGNED NOT NULL,
+awrd_ctgryid INT UNSIGNED NOT NULL,
+awrd_ctgry_ordr TINYINT UNSIGNED NOT NULL,
+awrd_ctgry_alt_nm VARCHAR(255),
+PRIMARY KEY (awrdid, awrd_ctgryid, awrd_ctgry_ordr)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE awrdnoms (
+awrdid INT UNSIGNED NOT NULL,
+awrd_ctgryid INT UNSIGNED NOT NULL,
+nom_id TINYINT UNSIGNED NOT NULL,
+nom_win_dscr VARCHAR(255) NOT NULL,
+win_bool BOOL,
+PRIMARY KEY (awrdid, awrd_ctgryid, nom_id)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE awrdnomprds (
+awrdid INT UNSIGNED NOT NULL,
+awrd_ctgryid INT UNSIGNED NOT NULL,
+nomid TINYINT UNSIGNED NOT NULL,
+nom_prdid INT UNSIGNED NOT NULL,
+PRIMARY KEY (awrdid, awrd_ctgryid, nomid, nom_prdid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE awrdnompts (
+awrdid INT UNSIGNED NOT NULL,
+awrd_ctgryid INT UNSIGNED NOT NULL,
+nomid TINYINT UNSIGNED NOT NULL,
+nom_ptid INT UNSIGNED NOT NULL,
+PRIMARY KEY (awrdid, awrd_ctgryid, nomid, nom_ptid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE awrdnomppl (
+awrdid INT UNSIGNED NOT NULL,
+awrd_ctgryid INT UNSIGNED NOT NULL,
+nomid TINYINT UNSIGNED NOT NULL,
+nom_compid INT UNSIGNED NOT NULL,
+nom_prsnid INT UNSIGNED NOT NULL,
+nom_ordr TINYINT UNSIGNED NOT NULL,
+nom_rl VARCHAR(255),
+PRIMARY KEY (awrdid, awrd_ctgryid, nomid, nom_compid, nom_prsnid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE pt (
+pt_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+pt_nm VARCHAR(255) NOT NULL,
+pt_nm_yr VARCHAR(255) NOT NULL,
+pt_alph VARCHAR(255),
+pt_sffx_num TINYINT UNSIGNED,
+pt_yr_strtd_c BOOL,
+pt_yr_strtd SMALLINT,
+pt_yr_wrttn_c BOOL,
+pt_yr_wrttn SMALLINT NOT NULL,
+pt_url VARCHAR(255) NOT NULL UNIQUE,
+pt_sbnm VARCHAR(255),
+pt_pub_dt DATE,
+pt_pub_dt_frmt TINYINT(1) UNSIGNED,
+pt_coll TINYINT(1) UNSIGNED, (pt_coll_ov / pt_coll_wrks / pt_coll_sg)
+coll_ov INT UNSIGNED,
+coll_sbhdrid TINYINT UNSIGNED,
+coll_ordr TINYINT UNSIGNED,
+cst_ttl TINYINT UNSIGNED,
+cst_m TINYINT UNSIGNED,
+cst_f TINYINT UNSIGNED,
+cst_non_spc TINYINT UNSIGNED,
+cst_addt BOOL,
+cst_nt VARCHAR(255),
+char_ttl SMALLINT UNSIGNED,
+char_m SMALLINT UNSIGNED,
+char_f SMALLINT UNSIGNED,
+char_non_spc SMALLINT UNSIGNED,
+char_na SMALLINT UNSIGNED,
+char_addt BOOL
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE pt_alt_nm (
+ptid INT UNSIGNED NOT NULL,
+pt_alt_nm VARCHAR(255) NOT NULL,
+pt_alt_nm_dscr VARCHAR(255),
+pt_alt_nm_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (ptid, pt_alt_nm_ordr)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE prdpt (
+prdid INT UNSIGNED NOT NULL,
+ptid INT UNSIGNED NOT NULL,
+PRIMARY KEY (prdid, ptid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE ptcoll_sbhdr (
+coll_ov INT UNSIGNED NOT NULL,
+coll_sbhdr_id TINYINT UNSIGNED NOT NULL,
+coll_sbhdr VARCHAR(255) NOT NULL,
+PRIMARY KEY (coll_ov, coll_sbhdr_id)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE ptwrks (
+wrks_ov INT UNSIGNED NOT NULL,
+wrks_sg INT UNSIGNED NOT NULL,
+wrks_sbhdrid TINYINT UNSIGNED,
+wrks_sg_rl VARCHAR(255),
+wrks_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (wrks_ov, wrks_sg)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE ptwrks_sbhdr (
+wrks_ov INT UNSIGNED NOT NULL,
+wrks_sbhdr_id TINYINT UNSIGNED NOT NULL,
+wrks_sbhdr VARCHAR(255) NOT NULL,
+PRIMARY KEY (wrks_ov, wrks_sbhdr_id)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE ptlnk (
+lnk1 INT UNSIGNED NOT NULL,
+lnk2 INT UNSIGNED NOT NULL,
+PRIMARY KEY (lnk1, lnk2)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE ptmat (
+ptid INT UNSIGNED NOT NULL,
+matid INT UNSIGNED NOT NULL,
+mat_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (ptid, matid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE pttxt_vrsn (
+ptid INT UNSIGNED NOT NULL,
+txt_vrsnid INT UNSIGNED NOT NULL,
+txt_vrsn_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (ptid, txt_vrsnid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE ptctgry (
+ptid INT UNSIGNED NOT NULL,
+ctgryid INT UNSIGNED NOT NULL,
+ctgry_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (ptid, ctgryid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE ptgnr (
+ptid INT UNSIGNED NOT NULL,
+gnrid INT UNSIGNED NOT NULL,
+gnr_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (ptid, gnrid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE ptftr (
+ptid INT UNSIGNED NOT NULL,
+ftrid INT UNSIGNED NOT NULL,
+ftr_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (ptid, ftrid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE ptsttng (
+ptid INT UNSIGNED NOT NULL,
+sttng_id TINYINT UNSIGNED NOT NULL,
+tm_spn BOOL,
+PRIMARY KEY (ptid, sttng_id)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE ptsttng_tm (
+ptid INT UNSIGNED NOT NULL,
+sttngid TINYINT UNSIGNED NOT NULL,
+sttng_tmid INT UNSIGNED NOT NULL,
+sttng_tm_ordr TINYINT UNSIGNED NOT NULL,
+sttng_tm_nt1 VARCHAR(255),
+sttng_tm_nt2 VARCHAR(255),
+PRIMARY KEY (ptid, sttngid, sttng_tmid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE ptsttng_lctn (
+ptid INT UNSIGNED NOT NULL,
+sttngid TINYINT UNSIGNED NOT NULL,
+sttng_lctnid INT UNSIGNED NOT NULL,
+sttng_lctn_ordr TINYINT UNSIGNED NOT NULL,
+sttng_lctn_nt1 VARCHAR(255),
+sttng_lctn_nt2 VARCHAR(255),
+PRIMARY KEY (ptid, sttngid, sttng_lctnid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE ptsttng_lctn_alt (
+ptid INT UNSIGNED NOT NULL,
+sttngid TINYINT UNSIGNED NOT NULL,
+sttng_lctnid INT UNSIGNED NOT NULL,
+sttng_lctn_altid INT UNSIGNED NOT NULL,
+PRIMARY KEY (ptid, sttngid, sttng_lctnid, sttng_lctn_altid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE ptsttng_plc (
+ptid INT UNSIGNED NOT NULL,
+sttngid TINYINT UNSIGNED NOT NULL,
+sttng_plcid INT UNSIGNED NOT NULL,
+sttng_plc_ordr TINYINT UNSIGNED NOT NULL,
+sttng_plc_nt1 VARCHAR(255),
+sttng_plc_nt2 VARCHAR(255),
+PRIMARY KEY (ptid, sttngid, sttng_plcid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE ptthm (
+ptid INT UNSIGNED NOT NULL,
+thmid INT UNSIGNED NOT NULL,
+thm_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (ptid, thmid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE ptchar (
+ptid INT UNSIGNED NOT NULL,
+charid INT UNSIGNED NOT NULL,
+char_grpid TINYINT UNSIGNED,
+char_ordr TINYINT UNSIGNED NOT NULL,
+char_nt VARCHAR(255),
+PRIMARY KEY (ptid, charid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE ptchar_grp (
+ptid INT UNSIGNED NOT NULL,
+char_grp_id TINYINT UNSIGNED NOT NULL,
+char_grp VARCHAR(255) NOT NULL,
+PRIMARY KEY (ptid, char_grp_id)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE ptlcnsr (
+ptid INT UNSIGNED NOT NULL,
+lcnsr_compid INT UNSIGNED NOT NULL,
+lcnsr_prsnid INT UNSIGNED NOT NULL,
+lcnsr_ordr TINYINT UNSIGNED NOT NULL,
+lcnsr_rl VARCHAR(255) NOT NULL,
+PRIMARY KEY (ptid, lcnsr_compid, lcnsr_prsnid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE role (
+char_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+char_nm VARCHAR(255) NOT NULL,
+char_alph VARCHAR(255),
+char_sffx_num MEDIUMINT UNSIGNED,
+char_lnk VARCHAR(255) NOT NULL,
+char_url VARCHAR(255) NOT NULL UNIQUE,
+char_sx TINYINT(1) UNSIGNED, (char_sx_m / char_sx_f / char_sx_non_spc)
+char_age_frm TINYINT UNSIGNED,
+char_age_to TINYINT UNSIGNED,
+char_dscr VARCHAR(255),
+char_amnt TINYINT UNSIGNED,
+char_mlti BOOL
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE ethn (
+ethn_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+ethn_nm VARCHAR(255) NOT NULL UNIQUE,
+ethn_url VARCHAR(255) NOT NULL UNIQUE
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE charethn (
+charid INT UNSIGNED NOT NULL,
+ethnid INT UNSIGNED NOT NULL,
+ethn_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (charid, ethnid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE rel_ethn (
+rel_ethn1 INT UNSIGNED NOT NULL,
+rel_ethn2 INT UNSIGNED NOT NULL,
+rel_ethn_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (rel_ethn1, rel_ethn2)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE charorg_lctn (
+charid INT UNSIGNED NOT NULL,
+org_lctnid INT UNSIGNED NOT NULL,
+org_lctn_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (charid, org_lctnid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE charorg_lctn_alt (
+charid INT UNSIGNED NOT NULL,
+org_lctnid INT UNSIGNED NOT NULL,
+org_lctn_altid INT UNSIGNED NOT NULL,
+PRIMARY KEY (charid, org_lctnid, org_lctn_altid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE prof (
+prof_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+prof_nm VARCHAR(255) NOT NULL UNIQUE,
+prof_url VARCHAR(255) NOT NULL UNIQUE
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE rel_prof (
+rel_prof1 INT UNSIGNED NOT NULL,
+rel_prof2 INT UNSIGNED NOT NULL,
+rel_prof_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (rel_prof1, rel_prof2)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE charprof (
+charid INT UNSIGNED NOT NULL,
+profid INT UNSIGNED NOT NULL,
+prof_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (charid, profid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE attr (
+attr_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+attr_nm VARCHAR(255) NOT NULL UNIQUE,
+attr_url VARCHAR(255) NOT NULL UNIQUE
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE rel_attr (
+rel_attr1 INT UNSIGNED NOT NULL,
+rel_attr2 INT UNSIGNED NOT NULL,
+rel_attr_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (rel_attr1, rel_attr2)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE charattr (
+charid INT UNSIGNED NOT NULL,
+attrid INT UNSIGNED NOT NULL,
+attr_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (charid, attrid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE abil (
+abil_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+abil_nm VARCHAR(255) NOT NULL UNIQUE,
+abil_url VARCHAR(255) NOT NULL UNIQUE
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE charabil (
+charid INT UNSIGNED NOT NULL,
+abilid INT UNSIGNED NOT NULL,
+abil_ordr TINYINT UNSIGNED NOT NULL,
+PRIMARY KEY (charid, abilid)
+) DEFAULT CHARACTER SET utf8;
+
+CREATE TABLE var_char (
+var_char1 INT UNSIGNED NOT NULL,
+var_char2 INT UNSIGNED NOT NULL,
+PRIMARY KEY (var_char1, var_char2)
+) DEFAULT CHARACTER SET utf8;
