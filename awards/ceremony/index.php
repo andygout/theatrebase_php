@@ -490,7 +490,7 @@
           GROUP BY awrd_ctgry_id
           ORDER BY awrd_ctgry_ordr ASC";
     $result=mysqli_query($link, $sql);
-    if(!$result) {$error='Error acquiring award nominations data: '.mysqli_error($link); include $_SERVER['DOCUMENT_ROOT'].'/includes/error.html.php'; exit();}
+    if(!$result) {$error='Error acquiring award categories data: '.mysqli_error($link); include $_SERVER['DOCUMENT_ROOT'].'/includes/error.html.php'; exit();}
     if(mysqli_num_rows($result)>0)
     {
       while($row=mysqli_fetch_array($result))
@@ -507,7 +507,7 @@
             GROUP BY awrd_ctgry_id, nom_id
             ORDER BY nom_id ASC";
       $result=mysqli_query($link, $sql);
-      if(!$result) {$error='Error acquiring award categories data: '.mysqli_error($link); include $_SERVER['DOCUMENT_ROOT'].'/includes/error.html.php'; exit();}
+      if(!$result) {$error='Error acquiring award nominations data: '.mysqli_error($link); include $_SERVER['DOCUMENT_ROOT'].'/includes/error.html.php'; exit();}
       while($row=mysqli_fetch_array($result))
       {$awrds[$row['awrd_ctgry_id']]['noms'][$row['nom_id']]=array('nom_win_dscr'=>html($row['nom_win_dscr']), 'win'=>$row['win_bool'], 'nomppl'=>array(), 'nomprds'=>array(), 'nompts'=>array());}
 
