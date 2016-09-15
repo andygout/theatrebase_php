@@ -1655,7 +1655,7 @@
   $prd_id=cln($_GET['prd_id']);
   $prd_url=cln($_GET['prd_url']);
 
-  $sql="SELECT 1 FROM prd WHERE prd_id='$prd_id'";
+  $sql="SELECT 1 FROM prd WHERE prd_id='$prd_id' AND prd_url='$prd_url'";
   $result=mysqli_query($link, $sql);
   if(!$result) {$error='Error checking that URL has given valid data: '.mysqli_error($link); include $_SERVER['DOCUMENT_ROOT'].'/includes/error.html.php'; exit();}
 
